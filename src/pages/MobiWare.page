@@ -42,8 +42,8 @@ Apex controller @RemoteAction methods for secure CRUD operations.
 -->
 <c:RemoteTK />
 
-<!--  Load the custom application JavaScript that will manage all client 
-side application logic.
+<!--  
+Load the custom application JavaScript that will manage all client side application logic.
 -->
 <c:MobiWareApp />
 
@@ -58,12 +58,12 @@ side application logic.
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1" />  -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
         
-        <!-- We will use the cloud based jQuery libs to avoid loading and them as static 
-        resources. You can of course download the jQuery and jQuery Mobile libraries and
-        maintain your own versions static resource. Take note to BE CAREFUL to correctly 
-        control ordering of the JS includes! Testing in a desktop webkit browser such as Safari 
-        will work fine, BUT Chrome will not load insecure content libraries without clicking 
-        on the 'Load Anyway' shield link in the URL bar!
+        <!-- We will use the cloud based jQuery libs to avoid loading them as static 
+        resources. You can of course download them and maintain your own versions as 
+        static resource. Take note to BE CAREFUL to correctly control ordering of the 
+        JS includes! Testing in a desktop webkit browser such as Safari will work fine, 
+        BUT Chrome will not load insecure content libraries without clicking on the 
+        'Load Anyway' shield link in the URL bar!
         -->
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
         <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
