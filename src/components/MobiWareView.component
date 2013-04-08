@@ -1,0 +1,81 @@
+<apex:component >
+
+<!-- Merchandise List Page -->
+<div data-role="page" id="pagList" data-theme="b" data-title="Merchandise" >
+
+    <div data-role="header" data-position='fixed' >
+        <h1>Merchandise List</h1>
+        <a href="#" id="btnNew" class="ui-btn-right" data-theme="b" data-icon="plus">New</a>
+    </div>
+
+    <div data-role="content">
+        <ul id="lstMerchandise" data-role="listview" data-theme="c" data-filter="true" data-autodividers="true">
+        </ul>
+    </div>
+
+    <div data-role="footer" data-position="fixed">
+		<h4>MobiWare</h4>
+    </div>
+    
+</div>
+
+<!-- Merchandise Detail Page -->
+<div data-role="page" data-theme="b" id="pagDetail">
+    
+	<div data-role="header" data-position="fixed">
+        <a href="#pagList" data-iconpos="left" data-icon="back" data-rel="back">Back</a>
+        <h1>Merchandise Detail</h1>
+        <a href="#" data-iconpos="left" data-icon="check" class="ui-btn-right" id="btnEdit" data-theme="b" >Edit</a>
+    </div>    
+    
+    <div data-role="content">
+		<form action="" method="post" id="frmDetail">
+            <input type="hidden" name="Id" id="Id" />
+            <label for="Name">Merchandise Name:</label>
+			<input type="text" name="Name" id="Name" value="" readonly="readonly" style="background-color:lightgrey;"/>
+        	<label for="Description__c">Description:</label>
+        	<input type="text" name="Description__c" id="Description__c" value="" readonly="readonly" style="background-color:lightgrey;"/>
+	        <label for="Price__c">Price:</label>
+	        <input type="text" name="Price__c" id="Price__c" value="" readonly="readonly" style="background-color:lightgrey;"/>
+            <label for="Total_Inventory__c">Total Inventory:</label>
+	        <input type="text" name="Total_Inventory__c" id="Total_Inventory__c" value="" readonly="readonly" style="background-color:lightgrey;"/>
+        </form>
+    </div>
+
+    <div data-role="footer" data-position="fixed" >
+        <a href="#" class="ui-btn-left" data-icon="delete" id="btnDelete" data-theme="a">Delete</a>
+		<h4>MobiWare</h4>
+    </div>
+
+</div>
+
+<!-- Merchandise Edit Page -->
+<div data-role="page" data-theme="b" id="pagEdit">
+
+    <div data-role="header">
+	    <a href="#pagList" data-iconpos="left" data-icon="back" data-rel="back">Cancel</a>
+    	<h1>Merchandise Detail</h1>
+		<button data-role="button" id="btnSave" data-iconpos="left" data-icon="check" data-theme="b">Save</button>
+    </div>
+    
+	<div data-role="content">
+		<form action="" method="post" id="frmEdit">
+            <input type="hidden" name="Id" id="Id" />
+            <label for="Name">Merchandise Name:</label>
+			<input type="text" name="Name" id="Name" value="" />
+        	<label for="Description__c">Description:</label>
+        	<input type="text" name="Description__c" id="Description__c" value="" />
+	        <label for="Price__c">Price:</label>
+	        <input type="text" name="Price__c" id="Price__c" value="" step="0.01"/>
+            <label for="Total_Inventory__c">Total Inventory:</label>
+	        <input type="text" name="Total_Inventory__c" id="Total_Inventory__c" value="" step="0" />
+        </form>        
+    </div>
+
+    <div data-role="footer" data-position="fixed">
+		<h4>MobiWare</h4>
+    </div>
+    
+</div>
+    
+</apex:component>
