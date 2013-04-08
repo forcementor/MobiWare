@@ -1,0 +1,207 @@
+<apex:component >
+<script>
+
+/*
+Merchandise__c sObject:
+====================================
+Name				Text(255)
+Description__c		Text Area(255)
+Price__c			Currency(16, 2)
+Total_Inventory__c	Number(18, 0)
+====================================    
+*/    
+
+//Manage any errors received on the callback.    
+function errorCallback(jqXHR){
+    alert(jqXHR.statusText + ": " + jqXHR.responseText);
+}
+
+//Add listeners for the click events on the buttons.
+function addClickListeners() {
+
+	//Add a new record.
+    $j('#btnNew').click(function(e) {
+        e.preventDefault();
+
+		//Clear the fields on the form.
+        $j('#frmEdit')[0].reset();
+
+		//Set up the click handler for CREATE on the Save button.
+		//(This button handles both update and insert depending upon where
+		//it is used from.)  
+        $j('#btnSave').unbind('click.btn').bind('click.btn', createHandler);
+
+   		//Refresh the page.
+        $j.mobile.changePage('#pagEdit', "slide", false, true);
+    });
+
+	//Delete the selected record.
+    $j('#btnDelete').click(function(e) {
+        e.preventDefault();
+      	$j.mobile.loading( 'show' );
+
+		//Pass the record id to the apex controller del() method.
+        client.del('Merchandise__c', $j('#frmDetail').find('#Id').val()
+        ,
+        function(response) {
+			//Refresh and navigate back to the list. 
+            getRecords(function() {
+                $j.mobile.changePage('#pagList', "slide", true, true);
+            });
+        }, errorCallback);
+    });
+
+	//Edit the selected record.    
+    $j('#btnEdit').click(function(e) {
+        e.preventDefault();
+    	$j.mobile.loading( 'show' );
+
+		//Fetch the id from the displayed form.
+		var id = $j('#frmDetail').find('#Id').val();
+
+		//Fetch the freshest version of the record from the apex controller retrieve() method.
+		client.retrieve("Merchandise__c", id
+        , "Name,Id,Description__c,Price__c,Total_Inventory__c",
+        function(response) {
+			//Loop through the INPUTs on the form and load with the field values. 
+            $j('#frmEdit').find('input').each(function() {
+                $j(this).val(response[$j(this).attr("name")]);
+            });
+			
+			//Set up the click handler for UPDATE on the Save button.
+			//(This button handles both update and insert depending upon where
+			//it is used from.)  
+            $j('#btnSave')
+            .unbind('click.btn')
+            .bind('click.btn', updateHandler);
+    		
+    		//Refresh the page.
+    		$j.mobile.loading( 'show' );
+    		$j.mobile.changePage('#pagEdit', "flip", false, true);
+    
+        }, errorCallback);
+    });
+   
+}
+
+//Populate the record list and set up list item click handling.
+function getRecords(callback) {
+    $j('#lstMerchandise').empty();
+    client.query("SELECT Id, Name, Description__c, Price__c, Total_Inventory__c FROM Merchandise__c ORDER BY Name LIMIT 20"
+    ,
+    function(response) {
+        $j.each(response.records,
+        function() {
+            var id = this.Id;
+            $j('<li style="height:45px;"></li>')
+            .hide()
+            .append('<a href="#"><b>' + this.Name + '</b></a>')
+            .click(function(e) {
+                e.preventDefault();
+				$j.mobile.loading( 'show' );               
+    
+    			// We could do this more efficiently by adding these fields to the fields in the SELECT, 
+    			// but we want to show dynamic use of the retrieve function.
+                client.retrieve("Merchandise__c", id, "Name,Id,Description__c,Price__c,Total_Inventory__c"
+                ,
+                function(response) {
+					//Load the inputs on the form with the field values from the reponse object 
+					//passed back from the apex controller retrieve method.
+       				$j('#Name').val(response.Name);
+                    $j('#Description__c').val(response.Description__c);
+                    $j('#Price__c').val(response.Price__c);
+                    $j('#Total_Inventory__c').val(response.Total_Inventory__c);
+    				$j('#Id').val(response.Id);
+    
+		    		//Refresh the page.
+    				$j.mobile.loading( 'show' );
+                    $j.mobile.changePage('#pagDetail', "slide", false, true);
+
+                }, errorCallback);
+            })
+            .appendTo('#lstMerchandise')
+            .show();
+        });
+
+   		//Refresh the list.
+        $j('#lstMerchandise').listview('refresh');
+
+        if (typeof callback != 'undefined' && callback != null) {
+            callback();
+        }
+    }, errorCallback);
+}
+
+//Handle the CREATE event by gathering fields from the form to create a record.
+function createHandler(e) {
+    e.preventDefault();
+
+	//Select the form object.
+    var frmEdit = $j('#frmEdit');
+    var fields = {};
+
+ 	//Loop through all input fields.
+    frmEdit.find('input').each(function() {
+
+ 		//Build up each field on a fields collection as an the object.
+        var child = $j(this);
+		var childFieldName = child.attr("name");
+
+		//Load the object values from the form inputs - adjust for any non-string data types.
+        if (child.val().length > 0 && child.attr("name") != 'Id') {
+			if( childFieldName == 'Price__c' || childFieldName == 'Total_Inventory__c' ) {
+				//Must convert to number.	
+				fields[child.attr("name")] = parseFloat(child.val());
+			} else {
+				//String.
+            	fields[child.attr("name")] = child.val();
+            }
+        }
+    });
+    
+	//Invoke the CREATE apex controller method.
+    client.create('Merchandise__c', fields,
+    function(response) {
+        getRecords(function() {
+            $j.mobile.changePage('#pagList', "slide", true, true);
+        });
+    }, errorCallback);
+}
+
+//Handle the UPDATE event by gathering fields from the form to update the record.
+function updateHandler(e) {
+    e.preventDefault();
+    var frmEdit = $j('#frmEdit');
+    var fields = {};
+
+ 	//Loop through all input fields.
+    frmEdit.find('input').each(function() {
+
+ 		//Build up each field on a fields collection as an the object.
+        var child = $j(this);
+		var childFieldName = child.attr("name");
+		
+		//Load the object values from the form inputs - adjust for any non-string data types.
+        if (child.val().length > 0 && childFieldName != 'Id') {
+			if( childFieldName == 'Price__c' || childFieldName == 'Total_Inventory__c' ) {
+				//Must convert to number.	
+				fields[child.attr("name")] = parseFloat(child.val());
+			} else {
+				//String.
+            	fields[child.attr("name")] = child.val();
+            }
+        }
+    });
+
+	//Invoke the UPDATE apex controller method. 
+    client.update('Merchandise__c', frmEdit.find('#Id').val(), fields
+    ,
+    function(response) {
+        getRecords(function() {
+            $j.mobile.changePage('#pagList', "slide", true, true);
+        });
+    }, errorCallback);
+}
+
+</script>
+</apex:component>

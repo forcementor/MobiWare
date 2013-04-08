@@ -1,0 +1,117 @@
+<!--
+Copyright (c) 2012, salesforce.com, inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided
+that the following conditions are met:
+
+Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ following disclaimer.
+
+Redistributions in binary form must reproduce the above copyright notice, this list of conditions and
+the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+Neither the name of salesforce.com, inc. nor the names of its contributors may be used to endorse or
+promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!--
+Sample Visualforce page showing use of Force.com Javascript Remoting Toolkit from
+an HTML5 mobile app using jQuery Mobile
+-->
+
+<apex:page docType="html-5.0" 
+           showHeader="false" 
+           sidebar="false" 
+           standardStyleSheets="false" 
+           contentType="text/html"
+>
+
+<!-- 
+Use the RemoteTK component with all necessary JavaScript to connect with the 
+Apex controller @RemoteAction methods for secure CRUD operations.
+-->
+<c:RemoteTK />
+
+<!--  Load the custom application JavaScript that will manage all client 
+side application logic.
+-->
+<c:MobiWareApp />
+
+<html> 
+    <head> 
+        <title>MobiWare</title> 
+
+        <!-- Set Content type for the HTML -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <!-- Set a viewport to insure that the target device properly sets the form factor perspective -->
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1" />  -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+        
+        <!-- We will use the cloud based jQuery libs to avoid loading and them as static 
+        resources. You can of course download the jQuery and jQuery Mobile libraries and
+        maintain your own versions static resource. Take note to BE CAREFUL to correctly 
+        control ordering of the JS includes! Testing in a desktop webkit browser such as Safari 
+        will work fine, BUT Chrome will not load insecure content libraries without clicking 
+        on the 'Load Anyway' shield link in the URL bar!
+        -->
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+        <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+        <!-- This is the bootstrapping JavaScript code -->
+        <script type="application/javascript">
+
+            //Get a reference to jQuery that we can work with - Salesforce.com also uses jQuery!
+            $j = jQuery.noConflict();
+            
+            //Create the RemoteTK client. 
+            var client = new remotetk.Client();
+
+			//Pass it the Visualforce session id so it can handle all CRUD 
+			//operations using JavaScript Remoting calls rather than the REST API.
+            client.setSessionToken('{!$Api.Session_ID}');            
+            
+            //Kick things off...
+            $j(document).ready(function(){
+                 
+                //Set up the listerners for the button clicks.
+                addClickListeners();
+            
+                //Display a loading animated icon.    
+                $j.mobile.loading( 'show', {
+                    text: 'MobiWare...',
+                    textVisible: true,
+                    theme: 'z',
+                });
+
+                //Load the main page with data.                
+                getRecords(function(){
+                	$j.mobile.loading('hide');
+                });
+
+            });
+
+        </script>
+    
+    </head> 
+
+    <body> 
+
+        <!-- MobiWare main view -->
+        <c:MobiWareView />
+ 
+    </body>
+
+</html>
+</apex:page>
