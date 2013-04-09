@@ -13,7 +13,7 @@ Total_Inventory__c	Number(18, 0)
 
 //Manage any errors received on the callback.    
 function errorCallback(jqXHR){
-    alert(jqXHR.statusText + ": " + jqXHR.responseText);
+    alert(jqXHR[0].errorCode + ": " + jqXHR[0].message);
 }
 
 //Add listeners for the click events on the buttons.

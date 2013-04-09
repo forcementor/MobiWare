@@ -56,7 +56,7 @@ Load the custom application JavaScript that will manage all client side applicat
 
         <!-- Set a viewport to insure that the target device properly sets the form factor perspective -->
         <!-- <meta name="viewport" content="width=device-width, initial-scale=1" />  -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
         
         <!-- We will use the cloud based jQuery libs to avoid loading them as static 
         resources. You can of course download them and maintain your own versions as 
