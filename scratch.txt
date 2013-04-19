@@ -1,0 +1,45 @@
+When you have a good understanding of how something works, you greatly increase the likelihood that you’ll have a better experience using that something. In this blog post, I’ll expand on that thought, pointing out how it applies to Force.com application design, development, and implementation.
+
+Knowing How Things Work Can Make You a Hero
+A while ago, my wife called me in distress from the side of a nearby road. She explained that, suddenly, her car’s steering wheel had become very difficult to turn, even though the car was otherwise operating normally. I threw a few tools into my truck, stopped at a nearby auto parts store for a power steering belt, and had her back on the road an hour later.
+
+I felt like a hero, ate my favorite dinner that night, and didn’t have to do the dishes! What made all of this success possible? I know a lot about how automobiles work. I knew immediately from her description that the car’s power steering belt had snapped, and I knew that I could perform a simple fix quickly and safely on the side of the road.
+
+Application Platform Internals Can Be Important
+In the many times that I’ve had to learn about a new application platform during my professional career, I’ve often wondered why I needed to study the platform’s internal mechanisms, most of which are out of my control. For example, when I was first learning about Oracle Database, I didn’t immediately see any benefit in learning about how Oracle stores data on disk, let alone the nitty-gritty of that storage: datatype-specific byte storage requirements, block allocation, and block usage. Later on, however, this knowledge came in handy when I needed to accurately estimate how much disk storage I had to purchase for large databases—had I not been able to apply my Oracle knowledge in that estimation, I wouldn’t have been able to do my job very well.
+
+Don’t Ignore Force.com Platform Internals
+Force.com is a modern cloud platform that is easier to use than legacy systems, even when those legacy systems have cloud-based offshoots. For example, you won’t ever need to understand how Force.com allocates and uses data blocks, or ever do a space estimate and purchase disk storage—the platform relieves you of these responsibilities. That’s nice because you get to spend more time building great apps instead of thinking about servers and disk storage.
+
+Nonetheless, there are some Force.com internals that you should take time to learn because they can help you build and implement better applications.
+
+For example:
+
+When you know what types of fields Force.com automatically indexes, you can build more efficient filter conditions for database queries and reports.
+With a broad understanding of the platform’s record sharing mechanisms, you will no doubt avoid implementing a record sharing model that can lead to performance problems when your database grows very large.
+Learning Force.com Internals
+The Architect Core Resources page, updated weekly, is your one-stop shop for learning all about Force.com internals. If you are new to the platform, start with the resources available in the Force.com Fundamentals section.
+
+Architecting Force.com Apps, a Design Primer teaches you the key concepts and features to design and architect apps that use the Force.com development platform.
+The recently updated Force.com Multitenant Architecture, Under the Hood explains Force.com’s metadata-driven architecture, which enables fast, scalable, and secure multitenancy. If you have experience designing applications and databases with traditional platforms, make sure to read this article/paper to appreciate the unique characteristics of the Force.com platform so that you make proper design decisions later on.
+Once you have a good overall understanding of the platform, you can dive into deeper topics, which are organized into key areas such as integration, application business logic, user interface, data management, security, mobile, and app distribution.
+
+Here are a few samples.
+
+When designing SOQL and SOSL, use the Database Query & Search Optimization Fields Cheat Sheet to find the fields that will help you optimize your database performance and query response times.
+Read Visualforce Performance: Best Practices to learn how to locate and test problems, and design for optimal performance.
+Explore Record-Level Access: Under the Hood for a description of the database architecture Salesforce uses to provide fast and secure record access, and an explanation of why changing record access configurations impacts performance.
+Finally, stay on top of the latest resources that can help you be a better Force.com architect.
+
+Read our weekly blog posts.
+Attend an upcoming event, such as a webinar, or watch recordings of recent events.
+Connect with Force.com Architect Evangelists on Twitter and let us know what topics interest you.
+Related Resources
+Architect Core Resources
+Architecting Force.com Apps, a Design Primer
+Force.com Multitenant Architecture, Under the Hood
+Database Query & Search Optimization Fields Cheat Sheet
+Visualforce Performance: Best Practices
+Record-Level Access: Under the Hood
+About the Author
+Steve Bobrowski is an Architect Evangelist within the Technical Enablement team of the salesforce.com Customer-Centric Engineering group. The team’s mission is to help customers understand how to implement technically sound Salesforce solutions. Check out all of the resources that this team maintains on the Architect Core Resources page of Developer Force.
